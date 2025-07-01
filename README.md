@@ -2,16 +2,25 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+*** Register for an NEOWS API Key ***
+
+This app uses the Near Earth Object Web Service. You can find it here and register for a free API key:
+
+https://api.nasa.gov/index.html?adobe_mc=MCMID%3D12792298832452395693985282040431298164%7CMCORGID%3DA8833BC75245AF9E0A490D4D%2540AdobeOrg%7CTS%3D1751235261#signUp
+
+Please Note: The Earth API will be archived and replaced with https://www.earthdata.nasa.gov/ soon. Please update your bookmarks or projects as needed.
+
+*** Add API Key  ***
+
+The variable for the API Key is located in .env.local
+NASA_API_KEY: "your api key"
+
+*** Run the app on you local server ***
+Then, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
