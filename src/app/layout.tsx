@@ -25,6 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="dark" className="bg-base-300">
+      <head>
+        <meta name="format-detection" content="telephone=no" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

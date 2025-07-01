@@ -12,6 +12,7 @@ export default function BrowseAsteroids() {
   const [showHazardousOnly, setShowHazardousOnly] = useState(false);
   const [maxMissDistance, setMaxMissDistance] = useState(20); // in millions
   const { ref, inView } = useInView();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (inView && hasMore) {
@@ -19,7 +20,8 @@ export default function BrowseAsteroids() {
     }
   }, [inView, hasMore]);
 
-    useEffect(() => {
+   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
         try {
         const response = await axios.get(`/api/neo?page=${page}`);
@@ -33,10 +35,12 @@ export default function BrowseAsteroids() {
         setData(response.data);
         } catch (err) {
         setError(err);
+        } finally {
+        setLoading(false);
         }
     };
     fetchData();
-    }, [page, showHazardousOnly, maxMissDistance]);
+  }, [page, showHazardousOnly, maxMissDistance]);
 
   function getNextCloseApproach(asteroid) {
     if (!asteroid.close_approach_data || asteroid.close_approach_data.length === 0) return null;
@@ -97,12 +101,16 @@ export default function BrowseAsteroids() {
       </div>
     );
   }
-  if (!data) return <div>Loading...</div>;
+ if (loading && page === 0) return (
+  <div className="flex w-full mt-8 justify-center items-center">
+    <span className="loading loading-bars loading-bars-secondary loading-xl"></span>
+  </div>
+ );
 
 return (
   <div className="flex flex-row items-start p-4 gap-8 w-full">
   {/* Filters sidebar */}
-  <div className="sticky top-0 z-10 p-4 shadow-md asteroids-filters min-w-[220px] max-w-xs">
+  <div className="sticky top-20 z-10 p-4 shadow-md asteroids-filters min-w-[220px] max-w-xs">
     <div className="flex flex-col gap-6 items-start">
       <label className="flex items-center gap-2">
         <input
@@ -161,6 +169,11 @@ return (
           );
         })}
       </ul>
+      {loading && page > 0 && (
+        <div className="flex w-full justify-center items-center py-4 mb-2">
+            <span class="loading loading-infinity loading-md"></span>
+        </div>
+      )}
       <div ref={ref}></div>
     </div>
   </div>

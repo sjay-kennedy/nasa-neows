@@ -12,7 +12,7 @@ function Header(props: any) {
     document.documentElement.classList.toggle('bg-pink', !dark);
   }, [dark]);
   return (
-   <div className="navbar bg-base-100 shadow-sm flex justify-between items-center gap-2">
+   <div className="navbar bg-base-100 shadow-sm flex justify-between items-center gap-2 sticky top-0 z-50">
         <div className="navbar-start">
             <div className="dropdown">
                 <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
