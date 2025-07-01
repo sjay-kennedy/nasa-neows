@@ -1,9 +1,18 @@
 
-import React from 'react';
+"use client";
+import React, { useState, useEffect } from 'react';
 import Link from "next/link";
+
 function Header(props: any) {
+  const [dark, setDark] = useState(true);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    document.documentElement.classList.toggle('bg-base-300', dark);
+    document.documentElement.classList.toggle('bg-pink', !dark);
+  }, [dark]);
   return (
-    <div className="navbar bg-base-100 shadow-sm flex justify-start items-center gap-2">
+   <div className="navbar bg-base-100 shadow-sm flex justify-between items-center gap-2">
         <div className="navbar-start">
             <div className="dropdown">
                 <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -12,21 +21,31 @@ function Header(props: any) {
                 <ul
                     tabIndex={0}
                     className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                    <li><Link href="/browse">Browse Asteroids</Link></li>
-                    <li><Link href="/graphics">Relative Size</Link></li>
+                    {/* <li><Link href="/browse">Browse Asteroids</Link></li>
+                    <li><Link href="/graphics">Relative Size</Link></li> */}
                 </ul>
             </div>
-            <Link className="btn btn-ghost text-xl text-pink" href="/">Asteroid Tracker</Link>
+            <Link className={dark === true ? "btn btn-ghost text-xl text-secondary" : "btn btn-ghost text-xl text-dark-pink"} href="/">Asteroid Tracker</Link>
+            
         </div>
-        <div className="navbar-center hidden lg:flex">
+        <div className="navbar-center hidden 2xl:flex">
             <ul className="menu menu-horizontal px-1">
-                <li><Link href="/browse">Browse Asteroids</Link></li>
-                <li><Link href="/graphics">Relative Size</Link></li>
+                {/* <li><Link href="/browse">Browse Asteroids</Link></li>
+                <li><Link href="/graphics">Relative Size</Link></li> */}
             </ul>
         </div>
-        {/* <div className="navbar-end">
-            <a className="btn">Button</a>
-        </div> */}
+        <div className="navbar-end mr-4">
+             <label>
+          <span className="pr-2">Dark Theme</span>
+          <input
+            type="checkbox"
+            className="toggle theme-controller"
+            checked={dark}
+            onChange={() => setDark(d => !d)}
+            aria-label="Toggle dark mode"
+          />
+        </label>
+      </div>
     </div>
   );
 }

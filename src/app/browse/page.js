@@ -94,68 +94,69 @@ export default function BrowseAsteroids() {
 
 return (
   <div className="flex flex-row items-start p-4 gap-8 w-full">
-    {/* Filters sidebar */}
-    <div className="sticky top-0 z-10 p-4 shadow-md asteroids-filters min-w-[220px] max-w-xs">
-      <div className="flex flex-col gap-6 items-start">
-        <label className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            checked={showHazardousOnly}
-            onChange={e => setShowHazardousOnly(e.target.checked)}
-          />
-          Show only hazardous
-        </label>
-        <label className="flex flex-col items-start gap-1">
-          <span>Max miss distance:</span>
-          <div className="flex items-center gap-[10px]">
-            <select
-              value={maxMissDistance}
-              onChange={e => setMaxMissDistance(Number(e.target.value))}
-              className="select select-sm"
-            >
-              {Array.from({ length: 20 }, (_, i) => i + 1).map(num => (
-                <option key={num} value={num}>{num} million</option>
-              ))}
-            </select>
-            <span>miles</span>
-          </div>
-        </label>
-      </div>
-    </div>
-    {/* Asteroids list */}
-    <div className="flex-1 flex flex-col items-start">
-      <div className="w-full max-w-md mx-auto">
-        <ul className="list bg-base-100 rounded-box shadow-md asteroids-list">
-          {filteredAsteroids.map((asteroid) => {
-            const nextApproach = getNextCloseApproach(asteroid);
-            return (
-              <li className="list-row mb-1" key={asteroid.id}>
-                <div>
-                  <img className="size-10 rounded-box" width="100" src="/img/asteroid.png" alt="Asteroid" />
-                </div>
-                <div>
-                  <div>{asteroid.name}</div>
-                  <div className="text-xs uppercase font-semibold opacity-60">Absolute Magnitude: {asteroid.absolute_magnitude_h}</div>
-                  <div className="text-xs uppercase font-semibold opacity-60">Diameter: {asteroid.estimated_diameter.miles.estimated_diameter_max} miles</div>
-                  <div className="text-xs uppercase font-semibold opacity-60">
-                    {asteroid.is_potentially_hazardous_asteroid
-                      ? <div className="badge badge-xs badge-secondary text-gray-950 mt-2 mb-2">Threat</div>
-                      : <div className="badge badge-xs badge-neutral mt-2 mb-2">Safe</div>}
-                  </div>
-                  <div className="text-xs uppercase font-semibold opacity-60">
-                    Next Close Approach: {nextApproach ? nextApproach.date : "N/A"}
-                  </div>
-                  <div className="text-xs uppercase font-semibold opacity-60">
-                    Miss Distance: {nextApproach ? `${Number(nextApproach.miles).toLocaleString()} miles` : "N/A"}
-                  </div>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-        <div ref={ref}></div>
-      </div>
+  {/* Filters sidebar */}
+  <div className="sticky top-0 z-10 p-4 shadow-md asteroids-filters min-w-[220px] max-w-xs">
+    <div className="flex flex-col gap-6 items-start">
+      <label className="flex items-center gap-2">
+        <input
+          className="checkbox checkbox-secondary"
+          type="checkbox"
+          checked={showHazardousOnly}
+          onChange={e => setShowHazardousOnly(e.target.checked)}
+        />
+        Show only hazardous
+      </label>
+      <label className="flex flex-col items-start gap-1">
+        <span>Max miss distance:</span>
+        <div className="flex items-center gap-[10px]">
+          <select
+            value={maxMissDistance}
+            onChange={e => setMaxMissDistance(Number(e.target.value))}
+            className="select select-secondary select-sm"
+          >
+            {Array.from({ length: 20 }, (_, i) => i + 1).map(num => (
+              <option key={num} value={num}>{num} million</option>
+            ))}
+          </select>
+          <span>miles</span>
+        </div>
+      </label>
     </div>
   </div>
+  {/* Asteroids list */}
+  <div className="flex flex-col items-center w-full">
+    <div className="w-full max-w-md mr-[25%] ">
+      <ul className="list bg-base-100 rounded-box shadow-md asteroids-list">
+        {filteredAsteroids.map((asteroid) => {
+          const nextApproach = getNextCloseApproach(asteroid);
+          return (
+            <li className="list-row mb-1" key={asteroid.id}>
+              <div>
+                <img className="size-10 rounded-box" width="100" src="/img/asteroid-thumb.png" alt="Asteroid" />
+              </div>
+              <div>
+                <div>{asteroid.name}</div>
+                <div className="text-xs uppercase font-semibold opacity-60">Absolute Magnitude: {asteroid.absolute_magnitude_h}</div>
+                <div className="text-xs uppercase font-semibold opacity-60">Diameter: {asteroid.estimated_diameter.miles.estimated_diameter_max} miles</div>
+                <div className="text-xs uppercase font-semibold opacity-60">
+                  {asteroid.is_potentially_hazardous_asteroid
+                    ? <div className="badge badge-xs badge-secondary text-gray-950 mt-2 mb-2">Hazardous</div>
+                    : <div className="badge badge-xs badge-neutral mt-2 mb-2">Safe</div>}
+                </div>
+                <div className="text-xs uppercase font-semibold opacity-60">
+                  Next Close Approach: {nextApproach ? nextApproach.date : "N/A"}
+                </div>
+                <div className="text-xs uppercase font-semibold opacity-60">
+                  Miss Distance: {nextApproach ? `${Number(nextApproach.miles).toLocaleString()} miles` : "N/A"}
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+      <div ref={ref}></div>
+    </div>
+  </div>
+</div>
 );
 }

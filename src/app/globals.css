@@ -8,9 +8,9 @@
     width: 25%;
     justify-content: flex-start;
 }
-.transparent-background {
+ .transparent-background {
   position: relative; /* Set relative positioning for the pseudo-element */
-
+ 
 }
 
 .asteroid-float {
@@ -39,7 +39,17 @@
 .text-pink {
   color:#f078f7;
 }
+.text-dark-pink {
+  color:#8f0498;
+}
 
-.asteroids-list, .asteroids-filters {
+[data-theme="dark"] .asteroids-list, [data-theme="dark"] .asteroids-filters {
   background-color: oklch(26% 0.007 34.298 / 0.7);
+}
+[data-theme="light"] .asteroids-list, [data-theme="light"] .asteroids-filters {
+  background-color: oklch(98% 0 0 / 0.5);
+}
+
+.bg-pink {
+  background-color: #f1d8f3;
 }
