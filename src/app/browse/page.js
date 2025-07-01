@@ -19,24 +19,24 @@ export default function BrowseAsteroids() {
     }
   }, [inView, hasMore]);
 
-  useEffect(() => {
+    useEffect(() => {
     const fetchData = async () => {
-      try {
+        try {
         const response = await axios.get(`/api/neo?page=${page}`);
         const newAsteroids = response.data.near_earth_objects || [];
         setAsteroids(prev => page === 0 ? newAsteroids : [...prev, ...newAsteroids]);
         if (response.data.page) {
-          setHasMore(response.data.page.number < response.data.page.total_pages - 1);
+            setHasMore(response.data.page.number < response.data.page.total_pages - 1);
         } else {
-          setHasMore(false);
+            setHasMore(false);
         }
         setData(response.data);
-      } catch (err) {
+        } catch (err) {
         setError(err);
-      }
+        }
     };
     fetchData();
-  }, [page]);
+    }, [page, showHazardousOnly, maxMissDistance]);
 
   function getNextCloseApproach(asteroid) {
     if (!asteroid.close_approach_data || asteroid.close_approach_data.length === 0) return null;
@@ -81,6 +81,13 @@ export default function BrowseAsteroids() {
     showHazardousOnly,
     maxMissDistance
   ]);
+
+  useEffect(() => {
+    // Reset pagination and data when filters change
+    setPage(0);
+    setAsteroids([]);
+    setHasMore(true);
+  }, [showHazardousOnly, maxMissDistance]);
 
   // Now you can return early
   if (error) {
