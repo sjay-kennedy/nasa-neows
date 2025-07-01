@@ -13,6 +13,15 @@ export default function BrowseAsteroids() {
   const [maxMissDistance, setMaxMissDistance] = useState(20); // in millions
   const { ref, inView } = useInView();
   const [loading, setLoading] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 200); // Show button after scrolling 200px
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     if (inView && hasMore) {
@@ -169,9 +178,19 @@ return (
           );
         })}
       </ul>
+      <div className="flex justify-center mt-4">
+        {showScrollTop && (
+          <button
+            className="fixed bottom-4 right-10 btn btn-secondary btn-sm"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            ↑
+          </button>
+        )}
+      </div>
       {loading && page > 0 && (
         <div className="flex w-full justify-center items-center py-4 mb-2">
-            <span class="loading loading-infinity loading-md"></span>
+            <span className="loading loading-infinity loading-md"></span>
         </div>
       )}
       <div ref={ref}></div>
