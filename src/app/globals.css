@@ -1,26 +1,45 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.navbar-start {
+    display: inline-flex;
+    align-items: center;
+    width: 25%;
+    justify-content: flex-start;
+}
+.transparent-background {
+  position: relative; /* Set relative positioning for the pseudo-element */
+
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.asteroid-float {
+  position: fixed;
+  top: 5%; /* adjust as needed */
+  left: 20%; /* start just off the right edge */
+  width: 60%; /* adjust size as needed */
+  height: auto;
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: -1;
+
+  animation: asteroid-move 120s linear infinite, asteroid-rotate 120s linear infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+
+
+@keyframes asteroid-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
+.text-pink {
+  color:#f078f7;
+}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.asteroids-list {
+  background-color: oklch(26% 0.007 34.298 / 0.5);
 }
