@@ -9,7 +9,7 @@ function Header(props: any) {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
     document.documentElement.classList.toggle('bg-base-300', dark);
-    document.documentElement.classList.toggle('bg-pink-200', !dark);
+    document.documentElement.classList.toggle('bg-pink-300', !dark);
   }, [dark]);
   return (
    <div className="navbar bg-base-100 shadow-sm flex justify-between items-center gap-2 sticky top-0 z-50">
