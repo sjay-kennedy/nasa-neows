@@ -112,14 +112,10 @@ export default function BrowseAsteroids() {
       </div>
     );
   }
- if (loading && page === 0) return (
-  <div className="flex w-full mt-8 justify-center items-center">
-    <span className="loading loading-bars loading-bars-secondary loading-xl"></span>
-  </div>
- );
+ 
 
 return (
-  <div className="flex flex-col items-center justify-center p-4 gap-8 lg:flex-row lg:items-start ">
+  <div className="relative flex flex-col items-center justify-center p-4 gap-8 lg:flex-row lg:items-start ">
   {/* Filters sidebar */}
    <div className="
     w-full max-w-xs
