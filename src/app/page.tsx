@@ -33,7 +33,7 @@ export default function Home() {
               className="mb-6  animate-fade-in"
             />
             <h1 className="text-center text-3xl font-bold mb-4">NEO Web Service</h1>
-            <p className="text-center text-lg mb-6">Explore Near-Earth Objects (NEOs) with NASA's NEO Web Service.</p>
+            <p className="text-center text-lg mb-6 pl-5 pr-5">Explore Near-Earth Objects (NEOs) with NASA's NEO Web Service.</p>
             <Link href="/browse" className={theme === "light" ? "btn btn-neutral" : "btn btn-secondary"}>Browse Asteroids</Link>
             
           </div>

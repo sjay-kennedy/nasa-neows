@@ -78,7 +78,9 @@ export default function BrowseAsteroids() {
     if (isNaN(miles)) return false;
     return miles <= maxMissDistance * 1_000_000;
   });
-
+  const uniqueFilteredAsteroids = Array.from(
+        new Map(filteredAsteroids.map(a => [a.id, a])).values()
+  );
   useEffect(() => {
     if (
         filteredAsteroids.length === 0 &&
@@ -155,7 +157,7 @@ return (
   <div className="flex flex-col items-center w-full">
     <div className="max-w-md mr-auto ml-auto lg:ml-0 lg:mr-[25%] ">
       <ul className="list bg-base-100 rounded-box shadow-md asteroids-list ">
-        {filteredAsteroids.map((asteroid) => {
+        {uniqueFilteredAsteroids.map((asteroid) => {
           const nextApproach = getNextCloseApproach(asteroid);
           return (
             <li className="list-row mb-1" key={asteroid.id}>
@@ -185,7 +187,7 @@ return (
       <div className="flex justify-center mt-4">
         {showScrollTop && (
           <button
-            className="fixed bottom-4 right-10 btn btn-secondary btn-sm"
+            className="fixed bottom-4 right-10 btn btn-secondary btn-sm text-weight-bold text-lg"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
             ↑
