@@ -304,19 +304,19 @@ export default function BrowseAsteroids() {
                         </div>
                         <div>
                           <div>{asteroid.name}</div>
-                          <div className="text-xs uppercase font-semibold opacity-60">
+                          <div className="text-xs  font-semibold">
                             {asteroid.is_potentially_hazardous_asteroid
                               ? <div className="badge badge-xs badge-secondary text-gray-950 mt-2 mb-2">Hazardous</div>
                               : <div className="badge badge-xs badge-neutral mt-2 mb-2">Safe</div>}
                           </div>
-                          <div className="text-xs uppercase font-semibold opacity-60">Absolute Magnitude: {asteroid.absolute_magnitude_h}</div>
-                          <div className="text-xs uppercase font-semibold opacity-60">Diameter: {asteroid.estimated_diameter.miles.estimated_diameter_max} miles</div>
+                          <div className="text-xs opacity-60">Absolute Magnitude: <span className="font-normal opacity-100">{asteroid.absolute_magnitude_h}</span></div>
+                          <div className="text-xs opacity-60">Diameter: <span className="font-normal opacity-100">{asteroid.estimated_diameter.miles.estimated_diameter_max} miles</span></div>
                           
-                          <div className="text-xs uppercase font-semibold opacity-60">
-                            Next Close Approach: {nextApproach ? nextApproach.date : "No data"}
+                          <div className="text-xs  opacity-60">
+                            Next Close Approach: <span className="font-normal opacity-100">{nextApproach ? nextApproach.date : "No data"}</span>
                           </div>
-                          <div className="text-xs uppercase font-semibold opacity-60">
-                            Miss Distance: {nextApproach ? `${Number(nextApproach.miles).toLocaleString()} miles` : "No data"}
+                          <div className="text-xs opacity-60">
+                            Miss Distance: <span className="font-normal opacity-100">{nextApproach ? `${Number(nextApproach.miles).toLocaleString()} miles` : "No data"}</span>
                           </div>
                         </div>
                       </li>
