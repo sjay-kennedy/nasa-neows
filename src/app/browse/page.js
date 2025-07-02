@@ -20,7 +20,13 @@ export default function BrowseAsteroids() {
   const [lastFilteredCount, setLastFilteredCount] = useState(0);
   const [autoLoading, setAutoLoading] = useState(false);
   const [consecutiveNoMatches, setConsecutiveNoMatches] = useState(0);
-  const [view, setView] = useState('list');
+  const [view, setView] = useState(() => {
+    // Get the saved view from localStorage, default to 'list' if not found
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('asteroid-view') || 'list';
+    }
+    return 'list';
+  });
   useEffect(() => {
     // Function to update theme state
     const updateTheme = () => {
@@ -36,6 +42,13 @@ export default function BrowseAsteroids() {
 
     return () => observer.disconnect();
   }, []);
+
+  // Save view state to localStorage whenever it changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('asteroid-view', view);
+    }
+  }, [view]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -304,10 +317,10 @@ export default function BrowseAsteroids() {
                             <img 
                               className="rounded-box" 
                               style={{ 
-                                width: `${Math.floor(asteroid.estimated_diameter.miles.estimated_diameter_max) * 6}px`,
-                                height: `${Math.floor(asteroid.estimated_diameter.miles.estimated_diameter_max) * 6}px`,
-                                minWidth: '10px',
-                                minHeight: '10px',
+                                width: `${Math.floor(asteroid.estimated_diameter.miles.estimated_diameter_max) * 10}px`,
+                                height: `${Math.floor(asteroid.estimated_diameter.miles.estimated_diameter_max) * 10}px`,
+                                minWidth: '20px',
+                                minHeight: '20px',
                                 maxWidth: '300px',
                                 maxHeight: '300px'
                               }}
@@ -357,10 +370,10 @@ export default function BrowseAsteroids() {
                               <img 
                                 className="rounded-box" 
                                 style={{ 
-                                  width: `${Math.floor(asteroid.estimated_diameter.miles.estimated_diameter_max) * 6}px`,
-                                  height: `${Math.floor(asteroid.estimated_diameter.miles.estimated_diameter_max) * 6}px`,
-                                  minWidth: '10px',
-                                  minHeight: '10px',
+                                  width: `${Math.floor(asteroid.estimated_diameter.miles.estimated_diameter_max) * 10}px`,
+                                  height: `${Math.floor(asteroid.estimated_diameter.miles.estimated_diameter_max) * 10}px`,
+                                  minWidth: '20px',
+                                  minHeight: '20px',
                                   maxWidth: '300px',
                                   maxHeight: '300px'
                                 }}
