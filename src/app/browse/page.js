@@ -298,25 +298,40 @@ export default function BrowseAsteroids() {
                   {memoizedFilteredAsteroids.map((asteroid) => {
                     const nextApproach = getNextCloseApproach(asteroid);
                     return (
-                      <li className={theme === "light" ? "list-row mb-1 border-b border-pink-400/30 bg-slate-100/40 shadow-md " : "list-row mb-1 border border-pink-300/15 bg-slate-900/40 shadow-md "} key={`asteroid-${asteroid.id}-${asteroid.name}`}>
-                        <div>
-                          <img className="size-10 rounded-box" width="100" src="/img/asteroid-thumb.png" alt="Asteroid" />
-                        </div>
-                        <div>
-                          <div>{asteroid.name}</div>
-                          <div className="text-xs  font-semibold">
-                            {asteroid.is_potentially_hazardous_asteroid
-                              ? <div className="badge badge-xs badge-secondary text-gray-950 mt-2 mb-2">Hazardous</div>
-                              : <div className="badge badge-xs badge-neutral mt-2 mb-2">Safe</div>}
+                      <li className={theme === "light" ? "mb-1 border-b border-pink-400/30 bg-slate-100/40 shadow-md p-4 rounded-lg" : "mb-1 border border-pink-300/15 bg-slate-900/40 shadow-md p-4 rounded-lg"} key={`asteroid-${asteroid.id}-${asteroid.name}`}>
+                        <div className="flex flex-col items-center text-center h-full">
+                          <div className="flex-1 flex items-center justify-center mb-2">
+                            <img 
+                              className="rounded-box" 
+                              style={{ 
+                                width: `${Math.floor(asteroid.estimated_diameter.miles.estimated_diameter_max) * 6}px`,
+                                height: `${Math.floor(asteroid.estimated_diameter.miles.estimated_diameter_max) * 6}px`,
+                                minWidth: '10px',
+                                minHeight: '10px',
+                                maxWidth: '300px',
+                                maxHeight: '300px'
+                              }}
+                              src="/img/asteroid-thumb.png" 
+                              alt="Asteroid" 
+                            />
                           </div>
-                          <div className="text-xs opacity-60">Absolute Magnitude: <span className="font-normal opacity-100">{asteroid.absolute_magnitude_h}</span></div>
-                          <div className="text-xs opacity-60">Diameter: <span className="font-normal opacity-100">{asteroid.estimated_diameter.miles.estimated_diameter_max} miles</span></div>
-                          
-                          <div className="text-xs  opacity-60">
-                            Next Close Approach: <span className="font-normal opacity-100">{nextApproach ? nextApproach.date : "No data"}</span>
-                          </div>
-                          <div className="text-xs opacity-60">
-                            Miss Distance: <span className="font-normal opacity-100">{nextApproach ? `${Number(nextApproach.miles).toLocaleString()} miles` : "No data"}</span>
+                          <div className="mt-auto">
+                            <div className="font-semibold mb-1">{asteroid.name}</div>
+                           
+                            <div className="text-xs ">Absolute Magnitude: <span className="font-normal opacity-100">{asteroid.absolute_magnitude_h}</span></div>
+                            <div className="text-xs ">Diameter: <span className="font-normal opacity-100">{asteroid.estimated_diameter.miles.estimated_diameter_max} miles</span></div>
+                            
+                            <div className="text-xs ">
+                              Next Close Approach: <span className="font-normal opacity-100">{nextApproach ? nextApproach.date : "No data"}</span>
+                            </div>
+                            <div className="text-xs ">
+                              Miss Distance: <span className="font-normal opacity-100">{nextApproach ? `${Number(nextApproach.miles).toLocaleString()} miles` : "No data"}</span>
+                            </div>
+                            <div className="text-xs mt-2">
+                              {asteroid.is_potentially_hazardous_asteroid
+                                ? <div className="badge badge-xs badge-secondary text-gray-950">Hazardous</div>
+                                : <div className="badge badge-xs badge-neutral">Safe</div>}
+                            </div>
                           </div>
                         </div>
                       </li>
@@ -336,21 +351,38 @@ export default function BrowseAsteroids() {
                           : "card w-full card-xs border border-pink-300/15 bg-slate-900/40 shadow-md "}
                         
                       >
-                        <div className="card-body">
-                          <h2 className="card-title">{asteroid.name}</h2>
-                          <p>
-                            Absolute Magnitude: {asteroid.absolute_magnitude_h}<br />
-                            Diameter: {asteroid.estimated_diameter.miles.estimated_diameter_max} miles<br />
-                            Next Close Approach: {nextApproach ? nextApproach.date : "No data"}<br />
-                            Miss Distance: {nextApproach ? `${Number(nextApproach.miles).toLocaleString()} miles` : "No data"}
-                          </p>
-                          <div className="justify-end card-actions">
-                            {asteroid.is_potentially_hazardous_asteroid ? (
-                              <div className="badge badge-xs badge-secondary text-gray-950 mt-2 mb-2">Hazardous</div>
-                            ) : (
-                              <div className="badge badge-xs badge-neutral mt-2 mb-2">Safe</div>
-                            )}
-                          </div>
+                                                <div className="card-body flex flex-col items-center text-center h-full">
+                         <h2 className="card-title">{asteroid.name}</h2>
+                            <div className="flex-1 flex items-center justify-center">
+                              <img 
+                                className="rounded-box" 
+                                style={{ 
+                                  width: `${Math.floor(asteroid.estimated_diameter.miles.estimated_diameter_max) * 6}px`,
+                                  height: `${Math.floor(asteroid.estimated_diameter.miles.estimated_diameter_max) * 6}px`,
+                                  minWidth: '10px',
+                                  minHeight: '10px',
+                                  maxWidth: '300px',
+                                  maxHeight: '300px'
+                                }}
+                                src="/img/asteroid-thumb.png" 
+                                alt="Asteroid" 
+                              />
+                            </div>
+                            <div className="mt-auto">
+                              <p>
+                                Absolute Magnitude: {asteroid.absolute_magnitude_h}<br />
+                                Diameter: {asteroid.estimated_diameter.miles.estimated_diameter_max} miles<br />
+                                Next Close Approach: {nextApproach ? nextApproach.date : "No data"}<br />
+                                Miss Distance: {nextApproach ? `${Number(nextApproach.miles).toLocaleString()} miles` : "No data"}
+                              </p>
+                              <div className="card-actions justify-center">
+                                {asteroid.is_potentially_hazardous_asteroid ? (
+                                  <div className="badge badge-xs badge-secondary text-gray-950 mt-2 mb-2">Hazardous</div>
+                                ) : (
+                                  <div className="badge badge-xs badge-neutral mt-2 mb-2">Safe</div>
+                                )}
+                              </div>
+                            </div>
                         </div>
                       </div>
                     );
