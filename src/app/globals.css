@@ -42,3 +42,6 @@ body { opacity: 0; transition: opacity 0.2s; }
 .bg-pink {
   background-color: #f1d8f3;
 }
+.btn-secondary-transparent {
+  background-color: rgba(236, 72, 153, 0.3) !important;
+}
