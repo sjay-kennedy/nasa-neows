@@ -38,12 +38,6 @@
   color:#6b0371;
 }
 
-[data-theme="dark"] .asteroids-list, [data-theme="dark"] .asteroids-filters {
-  background-color: oklch(26% 0.007 34.298 / 0.7);
-}
-[data-theme="light"] .asteroids-list, [data-theme="light"] .asteroids-filters {
-  background-color: oklch(98% 0 0 / 0.5);
-}
 
 .bg-pink {
   background-color: #f1d8f3;

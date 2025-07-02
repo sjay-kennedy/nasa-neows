@@ -168,11 +168,7 @@ export default function BrowseAsteroids() {
 return (
   <div className="relative flex flex-col items-center justify-center p-4 gap-8 lg:flex-row lg:items-start ">
   {/* Filters sidebar */}
-   <div className="
-    w-full max-w-xs
-    p-4 shadow-md asteroids-filters rounded-box mb-6
-    lg:min-w-[220px] lg:max-w-xs lg:w-auto lg:mb-0 lg:sticky lg:top-20 lg:z-10
-  ">
+   <div className= {theme === "light" ? "w-full max-w-xs p-4 shadow-md asteroids-filters rounded-box mb-6 bg-slate-100/40 border border-pink-300/15 lg:min-w-[220px] lg:max-w-xs lg:w-auto lg:mb-0 lg:sticky lg:top-20 lg:z-10" : "w-full max-w-xs p-4 shadow-md asteroids-filters rounded-box mb-6 bg-slate-900/40 border border-pink-300/15 lg:min-w-[220px] lg:max-w-xs lg:w-auto lg:mb-0 lg:sticky lg:top-20 lg:z-10"} >  
     <div className="flex flex-col gap-6 items-start  ">
       <label className="flex items-center gap-2">
         <input
@@ -207,12 +203,12 @@ return (
   </div>
   {/* Asteroids list */}
   <div className="flex flex-col items-center w-full">
-    <div className="max-w-md mr-auto ml-auto lg:ml-0 lg:mr-[25%] ">
-      <ul className="list bg-base-100 rounded-box shadow-md asteroids-list ">
+    <div className="max-w-md mr-auto ml-auto lg:ml-0 lg:mr-[25%]">
+      <ul className="list rounded-box">
         {memoizedFilteredAsteroids.map((asteroid) => {
           const nextApproach = getNextCloseApproach(asteroid);
           return (
-            <li className={theme === "light" ? "list-row mb-1 border-b border-pink-400/30" : "list-row mb-1 border-b border-pink-300/15"} key={`asteroid-${asteroid.id}-${asteroid.name}`}>
+            <li className={theme === "light" ? "list-row mb-1 border-b border-pink-400/30 bg-slate-100/40 shadow-md " : "list-row mb-1 border border-pink-300/15 bg-slate-900/40 shadow-md "} key={`asteroid-${asteroid.id}-${asteroid.name}`}>
               
               <div>
                 <img className="size-10 rounded-box" width="100" src="/img/asteroid-thumb.png" alt="Asteroid" />
