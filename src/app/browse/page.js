@@ -14,7 +14,25 @@ export default function BrowseAsteroids() {
   const { ref, inView } = useInView();
   const [loading, setLoading] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [theme, setTheme] = useState("dark");
 
+ 
+
+  useEffect(() => {
+    // Function to update theme state
+    const updateTheme = () => {
+      setTheme(document.documentElement.getAttribute("data-theme") || "dark");
+    };
+
+    // Listen for theme changes (if you change theme via JS elsewhere)
+    const observer = new MutationObserver(updateTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+    // Set initial theme
+    updateTheme();
+
+    return () => observer.disconnect();
+  }, []);
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 200); // Show button after scrolling 200px
@@ -156,7 +174,8 @@ return (
         {uniqueFilteredAsteroids.map((asteroid) => {
           const nextApproach = getNextCloseApproach(asteroid);
           return (
-            <li className="list-row mb-1" key={asteroid.id}>
+            <li className={theme === "light" ? "list-row mb-1 border-b border-pink-400/30" : "list-row mb-1 border-b border-pink-300/15"} key={asteroid.id}>
+              
               <div>
                 <img className="size-10 rounded-box" width="100" src="/img/asteroid-thumb.png" alt="Asteroid" />
               </div>

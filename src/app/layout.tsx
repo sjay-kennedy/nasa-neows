@@ -26,10 +26,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-theme="dark" className="bg-base-300">
+    <html lang="en" data-theme="dark">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <Header />
         <div className="transparent-background">
-          <Header />
+          
           {children}
          <img
           className="

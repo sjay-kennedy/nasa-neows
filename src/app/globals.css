@@ -10,12 +10,14 @@
 }
  .transparent-background {
   position: relative; /* Set relative positioning for the pseudo-element */
- 
+  background-color: transparent;
 }
-
+.transparent-background .navbar {
+  background-color: var(--fallback-b3, oklch(var(--b3))) !important;
+}
 .asteroid-float {
   position: fixed;
-  /* top: 5%;  */
+  /* top: 5%; */
   /* left: 20%;  */
   /* width: 60%;  */
   height: auto;

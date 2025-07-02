@@ -24,7 +24,7 @@ export default function Home() {
   return (
     
       <div className="p-4 mt-8">
-          <div className="flex flex-col items-center  mt-[7%] sm:mt-[10%] md:mt-[10%] lg:mt-[15%] xl:mt-[5%] 2xl:mt-[5%]">
+          <div className="z-[3] relative flex flex-col items-center  mt-[7%] sm:mt-[10%] md:mt-[10%] lg:mt-[15%] xl:mt-[5%] 2xl:mt-[5%]">
             <Image
               src={theme === "light" ? "/img/nasa-dark.png" : "/img/nasa.png"}
               alt="NASA Logo"
