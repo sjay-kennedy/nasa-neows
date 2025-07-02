@@ -165,103 +165,103 @@ export default function BrowseAsteroids() {
     );
   }
 
-return (
-  <div className="relative flex flex-col items-center justify-center p-4 gap-8 lg:flex-row lg:items-start ">
-  {/* Filters sidebar */}
-   <div className= {theme === "light" ? "w-full max-w-xs p-4 shadow-md rounded-box mb-6 bg-slate-100/40 border border-pink-300/15 lg:min-w-[220px] lg:max-w-xs lg:w-auto lg:mb-0 lg:sticky lg:top-20 lg:z-10" : "w-full max-w-xs p-4 shadow-md asteroids-filters rounded-box mb-6 bg-slate-900/40 border border-pink-300/15 lg:min-w-[220px] lg:max-w-xs lg:w-auto lg:mb-0 lg:sticky lg:top-20 lg:z-10"} >  
-    <div className="flex flex-col gap-6 items-start  ">
-      <label className="flex items-center gap-2 text-sm">
-        <input
-          className="checkbox checkbox-secondary bg-base-100"
-          type="checkbox"
-          checked={showHazardousOnly}
-          onChange={e => setShowHazardousOnly(e.target.checked)}
-        />
-        Show only hazardous
-      </label>
-      <label className="flex flex-col items-start gap-1">
-        <span className="text-sm">Max miss distance:</span>
-        <div className="flex items-center gap-[10px]">
-          <select
-            value={maxMissDistance}
-            onChange={e => setMaxMissDistance(Number(e.target.value))}
-            className="select select-secondary select-sm"
-          >
-            {Array.from({ length: 20 }, (_, i) => i + 1).map(num => (
-              <option key={num} value={num}>{num} million</option>
-            ))}
-          </select>
-          <span className="text-sm">miles</span>
+  return (
+    <div className="relative flex flex-col items-center justify-center p-4 gap-8 lg:flex-row lg:items-start ">
+      {/* Filters sidebar */}
+      <div className= {theme === "light" ? "w-full max-w-xs p-4 shadow-md rounded-box mb-6 bg-slate-100/40 border border-pink-300/15 lg:min-w-[220px] lg:max-w-xs lg:w-auto lg:mb-0 lg:sticky lg:top-20 lg:z-10" : "w-full max-w-xs p-4 shadow-md asteroids-filters rounded-box mb-6 bg-slate-900/40 border border-pink-300/15 lg:min-w-[220px] lg:max-w-xs lg:w-auto lg:mb-0 lg:sticky lg:top-20 lg:z-10"} >  
+        <div className="flex flex-col gap-6 items-start  ">
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              className="checkbox checkbox-secondary bg-base-100"
+              type="checkbox"
+              checked={showHazardousOnly}
+              onChange={e => setShowHazardousOnly(e.target.checked)}
+            />
+            Show only hazardous
+          </label>
+          <label className="flex flex-col items-start gap-1">
+            <span className="text-sm">Max miss distance:</span>
+            <div className="flex items-center gap-[10px]">
+              <select
+                value={maxMissDistance}
+                onChange={e => setMaxMissDistance(Number(e.target.value))}
+                className="select select-secondary select-sm"
+              >
+                {Array.from({ length: 20 }, (_, i) => i + 1).map(num => (
+                  <option key={num} value={num}>{num} million</option>
+                ))}
+              </select>
+              <span className="text-sm">miles</span>
+            </div>
+          </label>
+          {/* Show info about loaded data */}
+          <div className="text-xs opacity-70">
+            Loaded: {asteroids.length} asteroids<br/>
+            Showing: {filteredAsteroids.length} results
+          </div>
         </div>
-      </label>
-      {/* Show info about loaded data */}
-      <div className="text-xs opacity-70">
-        Loaded: {asteroids.length} asteroids<br/>
-        Showing: {filteredAsteroids.length} results
+      </div>
+      {/* Asteroids list */}
+      <div className="flex flex-col items-center w-full">
+        <div className="max-w-md mr-auto ml-auto lg:ml-0 lg:mr-[25%]">
+          <ul className="list rounded-box">
+            {memoizedFilteredAsteroids.map((asteroid) => {
+              const nextApproach = getNextCloseApproach(asteroid);
+              return (
+                <li className={theme === "light" ? "list-row mb-1 border-b border-pink-400/30 bg-slate-100/40 shadow-md " : "list-row mb-1 border border-pink-300/15 bg-slate-900/40 shadow-md "} key={`asteroid-${asteroid.id}-${asteroid.name}`}>
+                  
+                  <div>
+                    <img className="size-10 rounded-box" width="100" src="/img/asteroid-thumb.png" alt="Asteroid" />
+                  </div>
+                  <div>
+                    <div>{asteroid.name}</div>
+                    <div className="text-xs uppercase font-semibold opacity-60">
+                      {asteroid.is_potentially_hazardous_asteroid
+                        ? <div className="badge badge-xs badge-secondary text-gray-950 mt-2 mb-2">Hazardous</div>
+                        : <div className="badge badge-xs badge-neutral mt-2 mb-2">Safe</div>}
+                    </div>
+                    <div className="text-xs uppercase font-semibold opacity-60">Absolute Magnitude: {asteroid.absolute_magnitude_h}</div>
+                    <div className="text-xs uppercase font-semibold opacity-60">Diameter: {asteroid.estimated_diameter.miles.estimated_diameter_max} miles</div>
+                    
+                    <div className="text-xs uppercase font-semibold opacity-60">
+                      Next Close Approach: {nextApproach ? nextApproach.date : "No data"}
+                    </div>
+                    <div className="text-xs uppercase font-semibold opacity-60">
+                      Miss Distance: {nextApproach ? `${Number(nextApproach.miles).toLocaleString()} miles` : "No data"}
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+          <div className="flex justify-center mt-4">
+            {showScrollTop && (
+              <button
+                className="fixed bottom-4 right-10 btn btn-secondary btn-sm text-weight-bold text-lg"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              >
+                ↑
+              </button>
+            )}
+          </div>
+          {/* Show loader when there's more data to load, regardless of current loading state */}
+          {hasMore && (
+            <div className="flex w-full justify-center items-center py-4 mb-2">
+                <span className="loading loading-infinity loading-md"></span>
+            </div>
+          )}
+          {/* Only show the ref element if there's more data to load */}
+          {hasMore && (
+            <div ref={ref} className="h-4"></div>
+          )}
+          {/* Show message when all data is loaded */}
+          {!hasMore && asteroids.length > 0 && (
+            <div className="flex w-full justify-center items-center py-4 mb-2 text-sm opacity-70">
+              All data loaded ({asteroids.length} asteroids)
+            </div>
+          )}
+        </div>
       </div>
     </div>
-  </div>
-  {/* Asteroids list */}
-  <div className="flex flex-col items-center w-full">
-    <div className="max-w-md mr-auto ml-auto lg:ml-0 lg:mr-[25%]">
-      <ul className="list rounded-box">
-        {memoizedFilteredAsteroids.map((asteroid) => {
-          const nextApproach = getNextCloseApproach(asteroid);
-          return (
-            <li className={theme === "light" ? "list-row mb-1 border-b border-pink-400/30 bg-slate-100/40 shadow-md " : "list-row mb-1 border border-pink-300/15 bg-slate-900/40 shadow-md "} key={`asteroid-${asteroid.id}-${asteroid.name}`}>
-              
-              <div>
-                <img className="size-10 rounded-box" width="100" src="/img/asteroid-thumb.png" alt="Asteroid" />
-              </div>
-              <div>
-                <div>{asteroid.name}</div>
-                <div className="text-xs uppercase font-semibold opacity-60">
-                  {asteroid.is_potentially_hazardous_asteroid
-                    ? <div className="badge badge-xs badge-secondary text-gray-950 mt-2 mb-2">Hazardous</div>
-                    : <div className="badge badge-xs badge-neutral mt-2 mb-2">Safe</div>}
-                </div>
-                <div className="text-xs uppercase font-semibold opacity-60">Absolute Magnitude: {asteroid.absolute_magnitude_h}</div>
-                <div className="text-xs uppercase font-semibold opacity-60">Diameter: {asteroid.estimated_diameter.miles.estimated_diameter_max} miles</div>
-                
-                <div className="text-xs uppercase font-semibold opacity-60">
-                  Next Close Approach: {nextApproach ? nextApproach.date : "No data"}
-                </div>
-                <div className="text-xs uppercase font-semibold opacity-60">
-                  Miss Distance: {nextApproach ? `${Number(nextApproach.miles).toLocaleString()} miles` : "No data"}
-                </div>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-      <div className="flex justify-center mt-4">
-        {showScrollTop && (
-          <button
-            className="fixed bottom-4 right-10 btn btn-secondary btn-sm text-weight-bold text-lg"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          >
-            ↑
-          </button>
-        )}
-      </div>
-      {/* Show loader when there's more data to load, regardless of current loading state */}
-      {hasMore && (
-        <div className="flex w-full justify-center items-center py-4 mb-2">
-            <span className="loading loading-infinity loading-md"></span>
-        </div>
-      )}
-      {/* Only show the ref element if there's more data to load */}
-      {hasMore && (
-        <div ref={ref} className="h-4"></div>
-      )}
-      {/* Show message when all data is loaded */}
-      {!hasMore && asteroids.length > 0 && (
-        <div className="flex w-full justify-center items-center py-4 mb-2 text-sm opacity-70">
-          All data loaded ({asteroids.length} asteroids)
-        </div>
-      )}
-    </div>
-  </div>
-</div>
-);
+  );
 }
