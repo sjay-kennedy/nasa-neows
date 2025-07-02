@@ -172,7 +172,7 @@ return (
     <div className="flex flex-col gap-6 items-start  ">
       <label className="flex items-center gap-2 text-sm">
         <input
-          className="checkbox checkbox-secondary"
+          className="checkbox checkbox-secondary bg-base-100"
           type="checkbox"
           checked={showHazardousOnly}
           onChange={e => setShowHazardousOnly(e.target.checked)}
