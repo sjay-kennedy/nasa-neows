@@ -170,7 +170,7 @@ return (
   {/* Filters sidebar */}
    <div className= {theme === "light" ? "w-full max-w-xs p-4 shadow-md asteroids-filters rounded-box mb-6 bg-slate-100/40 border border-pink-300/15 lg:min-w-[220px] lg:max-w-xs lg:w-auto lg:mb-0 lg:sticky lg:top-20 lg:z-10" : "w-full max-w-xs p-4 shadow-md asteroids-filters rounded-box mb-6 bg-slate-900/40 border border-pink-300/15 lg:min-w-[220px] lg:max-w-xs lg:w-auto lg:mb-0 lg:sticky lg:top-20 lg:z-10"} >  
     <div className="flex flex-col gap-6 items-start  ">
-      <label className="flex items-center gap-2">
+      <label className="flex items-center gap-2 text-sm">
         <input
           className="checkbox checkbox-secondary"
           type="checkbox"
@@ -180,7 +180,7 @@ return (
         Show only hazardous
       </label>
       <label className="flex flex-col items-start gap-1">
-        <span>Max miss distance:</span>
+        <span className="text-sm">Max miss distance:</span>
         <div className="flex items-center gap-[10px]">
           <select
             value={maxMissDistance}
@@ -191,7 +191,7 @@ return (
               <option key={num} value={num}>{num} million</option>
             ))}
           </select>
-          <span>miles</span>
+          <span className="text-sm">miles</span>
         </div>
       </label>
       {/* Show info about loaded data */}
