@@ -4,9 +4,18 @@ import React, { useState, useEffect } from 'react';
 import Link from "next/link";
 
 function Header(props: any) {
-  const [dark, setDark] = useState(true);
+  // Initialize from localStorage if available, default to true (dark)
+  const [dark, setDark] = useState(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("theme-dark");
+      return stored === null ? true : stored === "true";
+    }
+    return true;
+  });
 
   useEffect(() => {
+    // Save theme to localStorage
+    localStorage.setItem("theme-dark", String(dark));
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
     document.documentElement.classList.toggle('bg-base-300', dark);
     document.documentElement.classList.toggle('bg-pink-300', !dark);

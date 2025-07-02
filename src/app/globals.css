@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+body { opacity: 0; transition: opacity 0.2s; }
+[data-theme] body { opacity: 1; }
+
 .navbar-start {
     display: inline-flex;
     align-items: center;
