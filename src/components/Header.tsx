@@ -2,6 +2,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Link from "next/link";
+import { MoonIcon } from '@heroicons/react/24/solid'
+import { SunIcon } from '@heroicons/react/24/solid'
 
 function Header(props: any) {
   // Initialize from localStorage if available, default to true (dark)
@@ -44,16 +46,17 @@ function Header(props: any) {
             </ul>
         </div>
         <div className="navbar-end mr-4">
-             <label>
-          <span className="pr-2">Dark</span>
-          <input
-            type="checkbox"
-            className="toggle theme-controller"
-            checked={dark}
-            onChange={() => setDark(d => !d)}
+          <button
+            onClick={() => setDark(d => !d)}
             aria-label="Toggle dark mode"
-          />
-        </label>
+            className="btn btn-ghost btn-circle"
+          >
+            {dark ? (
+              <MoonIcon className="h-6 w-6 text-secondary transition-all duration-200" />
+            ) : (
+              <SunIcon className="h-6 w-6 text-pink-700 transition-all duration-200" />
+            )}
+        </button>
       </div>
     </div>
   );
