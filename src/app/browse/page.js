@@ -15,8 +15,9 @@ export default function BrowseAsteroids() {
   const [loading, setLoading] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [theme, setTheme] = useState("dark");
-
- 
+  const [lastFilteredCount, setLastFilteredCount] = useState(0);
+  const [autoLoading, setAutoLoading] = useState(false);
+  const [consecutiveNoMatches, setConsecutiveNoMatches] = useState(0);
 
   useEffect(() => {
     // Function to update theme state
@@ -33,6 +34,7 @@ export default function BrowseAsteroids() {
 
     return () => observer.disconnect();
   }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 200); // Show button after scrolling 200px
@@ -41,13 +43,14 @@ export default function BrowseAsteroids() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Simple infinite scroll - trigger on raw data
   useEffect(() => {
-    if (inView && hasMore) {
+    if (inView && hasMore && !loading && asteroids.length > 0) {
       setPage(prev => prev + 1);
     }
-  }, [inView, hasMore]);
+  }, [inView, hasMore, loading, asteroids.length]);
 
-   useEffect(() => {
+  useEffect(() => {
     setLoading(true);
     const fetchData = async () => {
         try {
@@ -67,7 +70,7 @@ export default function BrowseAsteroids() {
         }
     };
     fetchData();
-  }, [page, showHazardousOnly, maxMissDistance]);
+  }, [page]);
 
   function getNextCloseApproach(asteroid) {
     if (!asteroid.close_approach_data || asteroid.close_approach_data.length === 0) return null;
@@ -87,40 +90,71 @@ export default function BrowseAsteroids() {
     };
   }
 
-  // All hooks and derived values are above this line!
+  // Filter asteroids based on current criteria
   const filteredAsteroids = asteroids.filter(asteroid => {
     if (showHazardousOnly && !asteroid.is_potentially_hazardous_asteroid) return false;
+    
+    // If no distance filter is applied (maxMissDistance is 20), show all asteroids
+    if (maxMissDistance === 20) {
+      return true;
+    }
+    
     const nextApproach = getNextCloseApproach(asteroid);
-    if (!nextApproach) return false;
+    if (!nextApproach) return false; // Only filter by distance if there's close approach data
     const miles = Number(nextApproach.miles);
     if (isNaN(miles)) return false;
     return miles <= maxMissDistance * 1_000_000;
   });
+
   const uniqueFilteredAsteroids = Array.from(
         new Map(filteredAsteroids.map(a => [a.id, a])).values()
   );
-  useEffect(() => {
-    if (
-        filteredAsteroids.length === 0 &&
-        hasMore &&
-        asteroids.length > 0
-    ) {
-        setPage(prev => prev + 1);
-    }
-    }, [
-    filteredAsteroids.length,
-    hasMore,
-    asteroids.length,
-    showHazardousOnly,
-    maxMissDistance
-  ]);
 
+  // Memoize the filtered asteroids to prevent unnecessary re-renders
+  const memoizedFilteredAsteroids = React.useMemo(() => {
+    return Array.from(
+      new Map(filteredAsteroids.map(a => [a.id, a])).values()
+    );
+  }, [filteredAsteroids]);
+
+  // Update last filtered count when filtered results change
   useEffect(() => {
-    // Reset pagination and data when filters change
-    setPage(0);
-    setAsteroids([]);
-    setHasMore(true);
-  }, [showHazardousOnly, maxMissDistance]);
+    setLastFilteredCount(filteredAsteroids.length);
+  }, [filteredAsteroids.length]);
+
+  // Track consecutive loads without new matches
+  useEffect(() => {
+    const foundNewMatches = filteredAsteroids.length > lastFilteredCount;
+    
+    if (!foundNewMatches && lastFilteredCount > 0) {
+      setConsecutiveNoMatches(prev => prev + 1);
+    } else if (foundNewMatches) {
+      setConsecutiveNoMatches(0);
+    }
+  }, [filteredAsteroids.length, lastFilteredCount]);
+
+  // Auto-load more data if we have very few filtered results but more data is available
+  useEffect(() => {
+    // Only auto-load if we have fewer than 3 results AND we haven't found any new matches recently
+    if (filteredAsteroids.length < 3 && hasMore && !loading && asteroids.length > 0 && !autoLoading && consecutiveNoMatches < 3) {
+      // Only trigger if we have some data but not enough filtered results
+      const timer = setTimeout(() => {
+        if (filteredAsteroids.length < 3 && hasMore && !loading && !autoLoading && consecutiveNoMatches < 3) {
+          setAutoLoading(true);
+          setPage(prev => prev + 1);
+        }
+      }, 1500); // Wait 1.5 seconds before auto-loading to reduce jumping
+      
+      return () => clearTimeout(timer);
+    }
+  }, [filteredAsteroids.length, hasMore, loading, asteroids.length, autoLoading, consecutiveNoMatches]);
+
+  // Reset auto-loading when data finishes loading
+  useEffect(() => {
+    if (!loading) {
+      setAutoLoading(false);
+    }
+  }, [loading]);
 
   // Now you can return early
   if (error) {
@@ -130,7 +164,6 @@ export default function BrowseAsteroids() {
       </div>
     );
   }
- 
 
 return (
   <div className="relative flex flex-col items-center justify-center p-4 gap-8 lg:flex-row lg:items-start ">
@@ -165,34 +198,40 @@ return (
           <span>miles</span>
         </div>
       </label>
+      {/* Show info about loaded data */}
+      <div className="text-xs opacity-70">
+        Loaded: {asteroids.length} asteroids<br/>
+        Showing: {filteredAsteroids.length} results
+      </div>
     </div>
   </div>
   {/* Asteroids list */}
   <div className="flex flex-col items-center w-full">
     <div className="max-w-md mr-auto ml-auto lg:ml-0 lg:mr-[25%] ">
       <ul className="list bg-base-100 rounded-box shadow-md asteroids-list ">
-        {uniqueFilteredAsteroids.map((asteroid) => {
+        {memoizedFilteredAsteroids.map((asteroid) => {
           const nextApproach = getNextCloseApproach(asteroid);
           return (
-            <li className={theme === "light" ? "list-row mb-1 border-b border-pink-400/30" : "list-row mb-1 border-b border-pink-300/15"} key={asteroid.id}>
+            <li className={theme === "light" ? "list-row mb-1 border-b border-pink-400/30" : "list-row mb-1 border-b border-pink-300/15"} key={`asteroid-${asteroid.id}-${asteroid.name}`}>
               
               <div>
                 <img className="size-10 rounded-box" width="100" src="/img/asteroid-thumb.png" alt="Asteroid" />
               </div>
               <div>
                 <div>{asteroid.name}</div>
-                <div className="text-xs uppercase font-semibold opacity-60">Absolute Magnitude: {asteroid.absolute_magnitude_h}</div>
-                <div className="text-xs uppercase font-semibold opacity-60">Diameter: {asteroid.estimated_diameter.miles.estimated_diameter_max} miles</div>
                 <div className="text-xs uppercase font-semibold opacity-60">
                   {asteroid.is_potentially_hazardous_asteroid
                     ? <div className="badge badge-xs badge-secondary text-gray-950 mt-2 mb-2">Hazardous</div>
                     : <div className="badge badge-xs badge-neutral mt-2 mb-2">Safe</div>}
                 </div>
+                <div className="text-xs uppercase font-semibold opacity-60">Absolute Magnitude: {asteroid.absolute_magnitude_h}</div>
+                <div className="text-xs uppercase font-semibold opacity-60">Diameter: {asteroid.estimated_diameter.miles.estimated_diameter_max} miles</div>
+                
                 <div className="text-xs uppercase font-semibold opacity-60">
-                  Next Close Approach: {nextApproach ? nextApproach.date : "N/A"}
+                  Next Close Approach: {nextApproach ? nextApproach.date : "No data"}
                 </div>
                 <div className="text-xs uppercase font-semibold opacity-60">
-                  Miss Distance: {nextApproach ? `${Number(nextApproach.miles).toLocaleString()} miles` : "N/A"}
+                  Miss Distance: {nextApproach ? `${Number(nextApproach.miles).toLocaleString()} miles` : "No data"}
                 </div>
               </div>
             </li>
@@ -209,12 +248,22 @@ return (
           </button>
         )}
       </div>
-      {loading && page > 0 && (
+      {/* Show loader when there's more data to load, regardless of current loading state */}
+      {hasMore && (
         <div className="flex w-full justify-center items-center py-4 mb-2">
             <span className="loading loading-infinity loading-md"></span>
         </div>
       )}
-      <div ref={ref}></div>
+      {/* Only show the ref element if there's more data to load */}
+      {hasMore && (
+        <div ref={ref} className="h-4"></div>
+      )}
+      {/* Show message when all data is loaded */}
+      {!hasMore && asteroids.length > 0 && (
+        <div className="flex w-full justify-center items-center py-4 mb-2 text-sm opacity-70">
+          All data loaded ({asteroids.length} asteroids)
+        </div>
+      )}
     </div>
   </div>
 </div>
