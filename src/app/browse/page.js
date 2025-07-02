@@ -168,7 +168,7 @@ export default function BrowseAsteroids() {
 return (
   <div className="relative flex flex-col items-center justify-center p-4 gap-8 lg:flex-row lg:items-start ">
   {/* Filters sidebar */}
-   <div className= {theme === "light" ? "w-full max-w-xs p-4 shadow-md asteroids-filters rounded-box mb-6 bg-slate-100/40 border border-pink-300/15 lg:min-w-[220px] lg:max-w-xs lg:w-auto lg:mb-0 lg:sticky lg:top-20 lg:z-10" : "w-full max-w-xs p-4 shadow-md asteroids-filters rounded-box mb-6 bg-slate-900/40 border border-pink-300/15 lg:min-w-[220px] lg:max-w-xs lg:w-auto lg:mb-0 lg:sticky lg:top-20 lg:z-10"} >  
+   <div className= {theme === "light" ? "w-full max-w-xs p-4 shadow-md rounded-box mb-6 bg-slate-100/40 border border-pink-300/15 lg:min-w-[220px] lg:max-w-xs lg:w-auto lg:mb-0 lg:sticky lg:top-20 lg:z-10" : "w-full max-w-xs p-4 shadow-md asteroids-filters rounded-box mb-6 bg-slate-900/40 border border-pink-300/15 lg:min-w-[220px] lg:max-w-xs lg:w-auto lg:mb-0 lg:sticky lg:top-20 lg:z-10"} >  
     <div className="flex flex-col gap-6 items-start  ">
       <label className="flex items-center gap-2 text-sm">
         <input

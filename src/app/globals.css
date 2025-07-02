@@ -29,7 +29,6 @@ body { opacity: 0; transition: opacity 0.2s; }
   z-index: -1;
 
 }
-
 .slow-spin {
   animation-duration: 120s !important;
   animation-iteration-count: infinite !important;
@@ -40,8 +39,6 @@ body { opacity: 0; transition: opacity 0.2s; }
 .text-dark-pink {
   color:#6b0371;
 }
-
-
 .bg-pink {
   background-color: #f1d8f3;
 }
