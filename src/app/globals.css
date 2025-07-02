@@ -15,32 +15,25 @@
 
 .asteroid-float {
   position: fixed;
-  top: 5%; /* adjust as needed */
-  left: 20%; /* start just off the right edge */
-  width: 60%; /* adjust size as needed */
+  /* top: 5%;  */
+  /* left: 20%;  */
+  /* width: 60%;  */
   height: auto;
   opacity: 0.8;
   pointer-events: none;
   z-index: -1;
 
-  animation: asteroid-move 120s linear infinite, asteroid-rotate 120s linear infinite;
 }
 
-
-
-@keyframes asteroid-rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+.slow-spin {
+  animation-duration: 120s !important;
+  animation-iteration-count: infinite !important;
 }
 .text-pink {
   color:#f078f7;
 }
 .text-dark-pink {
-  color:#8f0498;
+  color:#6b0371;
 }
 
 [data-theme="dark"] .asteroids-list, [data-theme="dark"] .asteroids-filters {

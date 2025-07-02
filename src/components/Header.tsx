@@ -9,7 +9,7 @@ function Header(props: any) {
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
     document.documentElement.classList.toggle('bg-base-300', dark);
-    document.documentElement.classList.toggle('bg-pink', !dark);
+    document.documentElement.classList.toggle('bg-pink-200', !dark);
   }, [dark]);
   return (
    <div className="navbar bg-base-100 shadow-sm flex justify-between items-center gap-2 sticky top-0 z-50">
@@ -25,7 +25,7 @@ function Header(props: any) {
                     <li><Link href="/graphics">Relative Size</Link></li> */}
                 </ul>
             </div>
-            <Link className={dark === true ? "btn btn-ghost text-xl text-secondary" : "btn btn-ghost text-xl text-dark-pink"} href="/">Asteroid Tracker</Link>
+            <Link className={dark === true ? "btn btn-ghost text-xl text-secondary" : "btn btn-ghost text-xl text-pink-800"} href="/">Asteroid Tracker</Link>
             
         </div>
         <div className="navbar-center hidden 2xl:flex">
@@ -36,7 +36,7 @@ function Header(props: any) {
         </div>
         <div className="navbar-end mr-4">
              <label>
-          <span className="pr-2">Dark Theme</span>
+          <span className="pr-2">Dark</span>
           <input
             type="checkbox"
             className="toggle theme-controller"
