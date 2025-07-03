@@ -205,7 +205,8 @@ export default function BrowseAsteroids() {
             <div className="lg:col-span-10">
               {/* Desktop view - unchanged */}
               <div className="hidden lg:flex flex-row gap-4 items-center text-left">
-                <label className="flex items-center gap-2 text-sm">
+                <label className={theme === "light" ? "flex items-center gap-2 text-sm rounded border border-pink-400/30 bg-slate-100/40 shadow-md p-2 py-3" 
+                          : "flex items-center gap-2 text-sm border rounded border-pink-300/15 bg-slate-900/40 shadow-md p-2 py-3"}>
                   <input
                     className="checkbox checkbox-secondary bg-base-100"
                     type="checkbox"
@@ -214,7 +215,8 @@ export default function BrowseAsteroids() {
                   />
                   Show only hazardous
                 </label>
-                <div className="flex flex-row items-center gap-2 text-sm">
+                <div className={theme === "light" ? "flex flex-row items-center gap-2 text-sm rounded border border-pink-400/30 bg-slate-100/40 shadow-md p-2" 
+                          : "flex flex-row items-center gap-2 text-sm border rounded border-pink-300/15 bg-slate-900/40 shadow-md p-2 "}>
                   <span>Max miss distance:</span>
                   <div className="flex items-center gap-2">
                     <select
@@ -230,7 +232,9 @@ export default function BrowseAsteroids() {
                   </div>
                 </div>
                 {/* Data info inline */}
-                <div className="text-xs opacity-70">
+                <div className={theme === "light" ? "text-xs opacity-70 rounded border border-pink-400/30 bg-slate-100/40 shadow-md p-2" 
+                          : "text-xs opacity-70 border rounded border-pink-300/15 bg-slate-900/40 shadow-md p-2 "}
+>
                   Loaded: {asteroids.length} asteroids<br/>
                   Showing: {filteredAsteroids.length} results
                 </div>
@@ -245,7 +249,8 @@ export default function BrowseAsteroids() {
                   </div>
                   <div className="collapse-content">
                     <div className="flex flex-col gap-4 items-start text-left pt-2">
-                      <label className="flex items-center gap-2 text-sm">
+                      <label className={theme === "light" ? "flex items-center gap-2 text-sm rounded border border-pink-400/30 bg-slate-100/40 shadow-md p-2 py-3" 
+                          : "flex items-center gap-2 text-sm border rounded border-pink-300/15 bg-slate-900/40 shadow-md p-2 py-3"}>
                         <input
                           className="checkbox checkbox-secondary bg-base-100"
                           type="checkbox"
@@ -254,7 +259,8 @@ export default function BrowseAsteroids() {
                         />
                         Show only hazardous
                       </label>
-                      <div className="flex flex-col items-start gap-2 text-sm">
+                      <div className={theme === "light" ? "flex flex-col items-start gap-2 text-sm rounded border border-pink-400/30 bg-slate-100/40 shadow-md p-2" 
+                          : "flex flex-col items-start gap-2 text-sm border rounded border-pink-300/15 bg-slate-900/40 shadow-md p-2 "}>
                         <span>Max miss distance:</span>
                         <div className="flex items-center gap-2">
                           <select
@@ -270,7 +276,8 @@ export default function BrowseAsteroids() {
                         </div>
                       </div>
                       {/* Data info inline */}
-                      <div className="text-xs opacity-70">
+                      <div className={theme === "light" ? "text-xs opacity-70 rounded border border-pink-400/30 bg-slate-100/40 shadow-md p-2" 
+                          : "text-xs opacity-70 border rounded border-pink-300/15 bg-slate-900/40 shadow-md p-2 "}>
                         Loaded: {asteroids.length} asteroids<br/>
                         Showing: {filteredAsteroids.length} results
                       </div>
