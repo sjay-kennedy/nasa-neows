@@ -235,8 +235,8 @@ export default function BrowseAsteroids() {
                 <div className={theme === "light" ? "text-xs opacity-70 rounded border border-pink-400/30 bg-slate-100/40 shadow-md p-2" 
                           : "text-xs opacity-70 border rounded border-pink-300/15 bg-slate-900/40 shadow-md p-2 "}
 >
-                  Loaded: {asteroids.length} asteroids<br/>
-                  Showing: {filteredAsteroids.length} results
+                    <p> Loaded: {asteroids.length} asteroids</p>
+                    <p>Showing: {filteredAsteroids.length} results</p>
                 </div>
               </div>
               
@@ -278,8 +278,8 @@ export default function BrowseAsteroids() {
                       {/* Data info inline */}
                       <div className={theme === "light" ? "text-xs opacity-70 rounded border border-pink-400/30 bg-slate-100/40 shadow-md p-2" 
                           : "text-xs opacity-70 border rounded border-pink-300/15 bg-slate-900/40 shadow-md p-2 "}>
-                        Loaded: {asteroids.length} asteroids<br/>
-                        Showing: {filteredAsteroids.length} results
+                        <p>Loaded: {asteroids.length} asteroids</p>
+                        <p>Showing: {filteredAsteroids.length} results</p>
                       </div>
                     </div>
                   </div>
@@ -336,9 +336,9 @@ export default function BrowseAsteroids() {
                             />
                           </div>
                           <div className="mt-auto">
-                            <div className="font-semibold mb-1">{asteroid.name}</div>
+                            <div className="font-semibold mb-2">{asteroid.name}</div>
                            
-                            <div className="text-xs ">Absolute Magnitude: <span className="font-normal opacity-100">{asteroid.absolute_magnitude_h}</span></div>
+                            {/* <div className="text-xs ">Absolute Magnitude: <span className="font-normal opacity-100">{asteroid.absolute_magnitude_h}</span></div> */}
                             <div className="text-xs ">Diameter: <span className="font-normal opacity-100">{asteroid.estimated_diameter.miles.estimated_diameter_max} miles</span></div>
                             
                             <div className="text-xs ">
@@ -347,7 +347,7 @@ export default function BrowseAsteroids() {
                             <div className="text-xs ">
                               Miss Distance: <span className="font-normal opacity-100">{nextApproach ? `${Number(nextApproach.miles).toLocaleString()} miles` : "No data"}</span>
                             </div>
-                            <div className="text-xs mt-2">
+                            <div className="text-xs mt-4 mb-2">
                               {asteroid.is_potentially_hazardous_asteroid
                                 ? <div className="badge badge-xs badge-secondary text-gray-950">Hazardous</div>
                                 : <div className="badge badge-xs badge-neutral">Safe</div>}
@@ -371,8 +371,8 @@ export default function BrowseAsteroids() {
                           : "card w-full card-xs border border-pink-300/15 bg-slate-900/40 shadow-md "}
                         
                       >
-                                                <div className="card-body flex flex-col items-center text-center h-full">
-                         <h2 className="card-title">{asteroid.name}</h2>
+                        <div className="card-body flex flex-col items-center text-center h-full">
+                         <h2 className="card-title mt-4">{asteroid.name}</h2>
                             <div className="flex-1 flex items-center justify-center">
                               <img 
                                 className="rounded-box" 
@@ -389,17 +389,17 @@ export default function BrowseAsteroids() {
                               />
                             </div>
                             <div className="mt-auto">
-                              <p>
-                                Absolute Magnitude: {asteroid.absolute_magnitude_h}<br />
-                                Diameter: {asteroid.estimated_diameter.miles.estimated_diameter_max} miles<br />
-                                Next Close Approach: {nextApproach ? nextApproach.date : "No data"}<br />
-                                Miss Distance: {nextApproach ? `${Number(nextApproach.miles).toLocaleString()} miles` : "No data"}
-                              </p>
-                              <div className="card-actions justify-center">
+                             
+                                {/* Absolute Magnitude: {asteroid.absolute_magnitude_h}<br /> */}
+                                <p>Diameter: {asteroid.estimated_diameter.miles.estimated_diameter_max} miles</p>
+                                <p>Next Close Approach: {nextApproach ? nextApproach.date : "No data"}</p>
+                                <p>Miss Distance: {nextApproach ? `${Number(nextApproach.miles).toLocaleString()} miles` : "No data"}</p>
+                             
+                              <div className="card-actions justify-center mt-4 mb-4">
                                 {asteroid.is_potentially_hazardous_asteroid ? (
-                                  <div className="badge badge-xs badge-secondary text-gray-950 mt-2 mb-2">Hazardous</div>
+                                  <div className="badge badge-xs badge-secondary text-gray-950">Hazardous</div>
                                 ) : (
-                                  <div className="badge badge-xs badge-neutral mt-2 mb-2">Safe</div>
+                                  <div className="badge badge-xs badge-neutral ">Safe</div>
                                 )}
                               </div>
                             </div>
